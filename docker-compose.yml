@@ -1,0 +1,32 @@
+version: '3.1'
+
+services:
+  pgdb:
+    image: postgres:alpine
+    ports:
+      - '5432:5432'
+    container_name: 'pgsql'
+    restart: always
+    environment:
+      POSTGRES_DB: apia
+      POSTGRES_USER: pguser
+      POSTGRES_PASSWORD: pgpassword
+    volumes:
+      - ./pgdata:/data/postgres
+    networks:
+      - postgres-network
+
+
+  adminer:
+    image: adminer
+    restart: always
+    environment:
+      ADMINER_DESIGN: dracula
+    ports:
+      - 8080:8080
+    networks:
+      - postgres-network
+
+networks:
+  postgres-network:
+    driver: bridge
